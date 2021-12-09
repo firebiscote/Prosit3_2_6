@@ -22,7 +22,7 @@ namespace Prosit3_2_6
                      "UT2",
                      new List<IWorker>()
                      {
-                         new Machine("Machine1")
+                         new Machine("Machine")
                      }
                 ),
                   new Unit(
@@ -33,17 +33,17 @@ namespace Prosit3_2_6
                              "SUT1",
                              new List<IWorker>()
                              {
-                                 new Machine("SUT1_Machine1"),
-                                 new Machine("SUT1_Machine2"),
-                                 new Machine("SUT1_Machine3")
+                                 new Machine("1_Machine1"),
+                                 new Machine("1_Machine2"),
+                                 new Machine("1_Machine3")
                              }),
                          new Unit(
                              "SUT2",
                              new List<IWorker>()
                              {
-                                 new Machine("SUT2_Machine1"),
-                                 new Machine("SUT2_Machine2"),
-                                 new Machine("SUT2_Machine3")
+                                 new Machine("2_Machine1"),
+                                 new Machine("2_Machine2"),
+                                 new Machine("2_Machine3")
                              })
                       })
                 }
