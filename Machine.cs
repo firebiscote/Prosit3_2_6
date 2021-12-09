@@ -12,9 +12,9 @@ namespace Prosit3_2_6
             Random rnd = new Random();
             DateTime start = DateTime.Now;
 
-            Thread.Sleep(rnd.Next(1000, 5000));
+            Thread.Sleep(rnd.Next(500, 5000));
 
-            Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalMilliseconds} milliseconds !");
+            Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalSeconds} seconds !");
 
             ((Barrier)b).SignalAndWait();
         }

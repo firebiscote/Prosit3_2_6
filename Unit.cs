@@ -6,21 +6,20 @@ namespace Prosit3_2_6
 {
     public class Unit : AbstractWorker
     {
-        public List<IWorker> Workers { get; set; }
         public IChainElement Next { get; set; }
+        private readonly List<IWorker> workers;
 
-        public Unit(string name, List<IWorker> workers, IChainElement next = null) : base(name) 
+        public Unit(string name, List<IWorker> workers) : base(name) 
         {
-            Workers = new List<IWorker>(workers);
-            Next = next;
+            this.workers = new List<IWorker>(workers);
         }
 
         public override void Process(object b = null)
         {
-            Barrier barrier = new Barrier(participantCount: Workers.Count+1);
+            Barrier barrier = new Barrier(participantCount: workers.Count+1);
             DateTime start = DateTime.Now;
 
-            foreach (IWorker worker in Workers)
+            foreach (IWorker worker in workers)
             {
                 Thread t = new Thread(new ParameterizedThreadStart(worker.Process));
                 t.Start(barrier);
@@ -28,7 +27,7 @@ namespace Prosit3_2_6
             barrier.SignalAndWait();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalMilliseconds} milliseconds !\n");
+            Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalSeconds} seconds !\n");
             Console.ForegroundColor = ConsoleColor.White;
 
             if (!(b is null))
