@@ -6,7 +6,7 @@ namespace Prosit3_2_6
 {
     public class Unit : AbstractWorker
     {
-        public IChainElement Next { get; set; }
+        public IWorker Next { get; set; }
         private readonly List<IWorker> workers;
 
         public Unit(string name, List<IWorker> workers) : base(name) 
