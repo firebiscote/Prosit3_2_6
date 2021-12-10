@@ -16,7 +16,7 @@ namespace Prosit3_2_6
 
         public override void Process(object b = null)
         {
-            Barrier barrier = new Barrier(participantCount: workers.Count+1);
+            Barrier barrier = new Barrier(participantCount: workers.Count + 1);
             DateTime start = DateTime.Now;
 
             foreach (IWorker worker in workers)
@@ -30,11 +30,15 @@ namespace Prosit3_2_6
             Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalSeconds} seconds !\n");
             Console.ForegroundColor = ConsoleColor.White;
 
+            if (!(Next is null) && Monitor.TryEnter(Next, 15000))
+            {
+                Thread t = new Thread(new ParameterizedThreadStart(Next.Process));
+                t.Start(b);
+                Monitor.Exit(Next);
+            }
+
             if (!(b is null))
                 ((Barrier)b).SignalAndWait();
-
-            if (!(Next is null))
-                Next.Process();
         }
     }
 }

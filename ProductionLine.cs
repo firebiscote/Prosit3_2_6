@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Prosit3_2_6
 {
@@ -16,9 +17,17 @@ namespace Prosit3_2_6
 
         public override void Process(object b = null)
         {
+            Barrier barrier = new Barrier(participantCount: units.Count + 1);
             DateTime start = DateTime.Now;
 
-            units[0].Process();
+            if (Monitor.TryEnter(units[0], 15000))
+            {
+                Thread t = new Thread(new ParameterizedThreadStart(units[0].Process));
+                t.Start(barrier);
+                Monitor.Exit(units[0]);
+            }
+
+            barrier.SignalAndWait();
 
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"{Name} executed in {(DateTime.Now - start).TotalSeconds} seconds");
